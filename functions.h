@@ -28,5 +28,5 @@ void accel_task(void);
 void ADC14_IRQHandler(void);
 void initGfx(void);
 
-
+extern Mailbox_Handle;
 #endif /* FUNCTIONS_H_ */

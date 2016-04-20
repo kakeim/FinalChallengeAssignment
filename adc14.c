@@ -8,6 +8,7 @@
 #include "functions.h"
 
 extern Graphics_Context g_sContext;
+extern Mailbox_Handle;
 
 void initADC(void) {
 	// Configures Pin 4.0, 4.2, and 6.1 as ADC input for Accelerometer
