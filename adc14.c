@@ -46,7 +46,7 @@ void initADC(void) {
     MAP_ADC14_enableConversion();
     MAP_ADC14_toggleConversionTrigger();
 }
-void accel_task(void)
+void accelerometer_task(void)
 {
 	uint16_t acc_vals[3];
 	char string[9];
@@ -60,8 +60,8 @@ void accel_task(void)
 
 	/* Display Accelerometer Section Title */
 	Graphics_drawStringCentered(&g_sContext, "Accelerometer:",
-								AUTO_STRING_LENGTH, 64, 10, OPAQUE_TEXT);
 
+AUTO_STRING_LENGTH, 64, 10, OPAQUE_TEXT);
 	while(1)
 	{
 		/* Wait for an ADC interrupt to pass in new accelerometer values */

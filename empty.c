@@ -53,10 +53,13 @@
 /* Board Header file */
 #include "Board.h"
 
+#include "functions.h"
+
 #define TASKSTACKSIZE   512
 
 Task_Struct task0Struct;
 Char task0Stack[TASKSTACKSIZE];
+extern Graphics_Context g_sContext;
 
 /*
  *  ======== heartBeatFxn ========
