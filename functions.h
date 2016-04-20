@@ -12,6 +12,7 @@
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Mailbox.h>
+#include <ti/sysbios/knl/Semaphore.h>
 
 /* DriverLib Includes */
 #include "driverlib.h"
@@ -27,6 +28,9 @@ void initADC(void);
 void accel_task(void);
 void ADC14_IRQHandler(void);
 void initGfx(void);
+void buttonInit(void);
+void gpioButton0(void);
+void SW1_IRQHandler(void);
 
 extern Mailbox_Handle;
 #endif /* FUNCTIONS_H_ */
