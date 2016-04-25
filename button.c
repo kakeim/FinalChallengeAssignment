@@ -6,6 +6,8 @@
  */
 #include "functions.h"
 
+extern Graphics_Context g_sContext;
+
 void button_task(void) {
 	Semaphore_pend(Button_Semaphore, BIOS_WAIT_FOREVER);
 
@@ -21,9 +23,10 @@ void buttonInit(void){
 	GPIO_setAsOutputPin(GPIO_PORT_P5, GPIO_PIN6);
 
 	/* Set RGB LED to red */
-	P2OUT |= BIT6;
-	P2OUT &= ~BIT4;
-	P5OUT &= ~BIT6;
+	GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN6);
+//	P2OUT |= BIT6;
+//	P2OUT &= ~BIT4;
+//	P5OUT &= ~BIT6;
 
 	/* Setup Button */
 	GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P5,GPIO_PIN1);

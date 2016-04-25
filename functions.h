@@ -36,10 +36,11 @@
 #include "Board.h"
 
 
+void initClocks(void);
+void initGfx(void);
 void initADC(void);
 void accel_task(void);
 void ADC14_IRQHandler(void);
-void initGfx(void);
 void buttonInit(void);
 void SW1_IRQHandler(void);
 void initTimers32(void);
