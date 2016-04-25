@@ -24,24 +24,25 @@
 #include <ti/drivers/GPIO.h>
 
 /* Standard Includes */
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 
+/* XDCtools Header files */
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
 
 /* Board Header file */
 #include "Board.h"
 
+
 void initADC(void);
 void accel_task(void);
 void ADC14_IRQHandler(void);
 void initGfx(void);
 void buttonInit(void);
-void gpioButton0(void);
 void SW1_IRQHandler(void);
 void initTimers32(void);
 void Timer32_IRQHandler(void);
 
-extern Mailbox_Handle;
 #endif /* FUNCTIONS_H_ */

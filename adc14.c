@@ -1,5 +1,5 @@
 /*
- * uartTransmission.c
+ * 	adc14.c
  *
  *  Created on: Apr 8, 2016
  *      Author: Kevin A. Keim
@@ -19,12 +19,9 @@ void initADC(void) {
 
     // Configuring ADC Memory
     MAP_ADC14_configureMultiSequenceMode(ADC_MEM0, ADC_MEM2, true);
-    MAP_ADC14_configureConversionMemory(ADC_MEM0, ADC_VREFPOS_AVCC_VREFNEG_VSS,
-    		ADC_INPUT_A14, false);
-    MAP_ADC14_configureConversionMemory(ADC_MEM1, ADC_VREFPOS_AVCC_VREFNEG_VSS,
-    		ADC_INPUT_A13, false);
-    MAP_ADC14_configureConversionMemory(ADC_MEM1, ADC_VREFPOS_AVCC_VREFNEG_VSS,
-       		ADC_INPUT_A11, false);
+    MAP_ADC14_configureConversionMemory(ADC_MEM0, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A14, false);
+    MAP_ADC14_configureConversionMemory(ADC_MEM1, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A13, false);
+    MAP_ADC14_configureConversionMemory(ADC_MEM1, ADC_VREFPOS_AVCC_VREFNEG_VSS, ADC_INPUT_A11, false);
 
     // Enable the interrupts when the conversion is finished
     MAP_ADC14_enableInterrupt(ADC_INT2);
@@ -106,6 +103,4 @@ void ADC14_IRQHandler(void) {
 
         Mailbox_post(adc_result, &curADCResult, BIOS_NO_WAIT);
     }
-
-
 }

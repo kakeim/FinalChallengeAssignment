@@ -33,26 +33,6 @@
 /*
  *  ======== empty.c ========
  */
-/* XDCtools Header files */
-#include <xdc/std.h>
-#include <xdc/runtime/System.h>
-
-/* BIOS Header files */
-#include <ti/sysbios/BIOS.h>
-#include <ti/sysbios/knl/Task.h>
-
-/* TI-RTOS Header files */
-#include <ti/drivers/GPIO.h>
-// #include <ti/drivers/I2C.h>
-// #include <ti/drivers/SDSPI.h>
-// #include <ti/drivers/SPI.h>
-// #include <ti/drivers/UART.h>
-// #include <ti/drivers/Watchdog.h>
-// #include <ti/drivers/WiFi.h>
-
-/* Board Header file */
-#include "Board.h"
-
 #include "functions.h"
 
 #define TASKSTACKSIZE   512
@@ -88,6 +68,7 @@ int main(void)
     /* Call board init functions */
     Board_initGeneral();
     Board_initGPIO();
+    initGfx();
     // Board_initI2C();
     // Board_initSDSPI();
     // Board_initSPI();
@@ -97,7 +78,7 @@ int main(void)
     initADC();
     buttonInit();
     initTimers32();
-    initGfx();
+
 
     /* Construct heartBeat Task  thread */
     Task_Params_init(&taskParams);
