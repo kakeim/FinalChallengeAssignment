@@ -20,9 +20,18 @@
 #include "Crystalfontz128x128_ST7735.h"
 #include <xdc/cfg/global.h>
 
+/* TI-RTOS Header files */
+#include <ti/drivers/GPIO.h>
+
 /* Standard Includes */
 #include <stdint.h>
 #include <stdbool.h>
+
+#include <xdc/std.h>
+#include <xdc/runtime/System.h>
+
+/* Board Header file */
+#include "Board.h"
 
 void initADC(void);
 void accel_task(void);

@@ -59,9 +59,7 @@ void accelerometer_task(void)
 	uint16_t count = 0;
 
 	/* Display Accelerometer Section Title */
-	Graphics_drawStringCentered(&g_sContext, "Accelerometer:",
-
-AUTO_STRING_LENGTH, 64, 10, OPAQUE_TEXT);
+	Graphics_drawStringCentered(&g_sContext, "Accelerometer:", AUTO_STRING_LENGTH, 64, 10, OPAQUE_TEXT);
 	while(1)
 	{
 		/* Wait for an ADC interrupt to pass in new accelerometer values */
