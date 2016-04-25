@@ -13,7 +13,7 @@ void button_task(void) {
 }
 
 void buttonInit(void){
-	GPIO_setCallback(Board_BUTTON0, gpioButton0);
+	GPIO_setCallback(Board_BUTTON0, SW1_IRQHandler);
 	GPIO_enableInt(Board_BUTTON0);
 
 	/* Configure RGB LED pins */
@@ -31,6 +31,10 @@ void buttonInit(void){
 	GPIO_enableInterrupt(GPIO_PORT_P5, GPIO_PIN1);
 	GPIO_interruptEdgeSelect(GPIO_PORT_P5, GPIO_PIN1, GPIO_HIGH_TO_LOW_TRANSITION);
 	Interrupt_enableInterrupt(INT_PORT5);
+}
+
+void gpioButton0(void){
+	initUart();
 }
 
 void SW1_IRQHandler(void){

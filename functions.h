@@ -40,6 +40,8 @@ void initGfx(void);
 void buttonInit(void);
 void gpioButton0(void);
 void SW1_IRQHandler(void);
+void initTimers32(void);
+void Timer32_IRQHandler(void);
 
 extern Mailbox_Handle;
 #endif /* FUNCTIONS_H_ */

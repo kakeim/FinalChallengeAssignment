@@ -29,12 +29,6 @@ void initADC(void) {
     // Enable the interrupts when the conversion is finished
     MAP_ADC14_enableInterrupt(ADC_INT2);
 
-    /* Enable 5ms timer */
-    Timer32_initModule((uint32_t)TIMER32_0_BASE,TIMER32_PRESCALER_1,TIMER32_32BIT,TIMER32_PERIODIC_MODE);
-    Timer32_setCount((uint32_t)TIMER32_0_BASE,240000);
-    Timer32_enableInterrupt((uint32_t)TIMER32_0_BASE);
-    Interrupt_enableInterrupt(INT_T32_INT1);
-
     // Enable interrupts
     MAP_Interrupt_enableInterrupt(INT_ADC14);
     MAP_Interrupt_enableMaster();

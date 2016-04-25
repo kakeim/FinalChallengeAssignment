@@ -79,6 +79,10 @@ Void heartBeatFxn(UArg arg0, UArg arg1)
  */
 int main(void)
 {
+	/* Halting WDT and disabling master interrupts */
+	WDT_A_holdTimer();
+	Interrupt_disableMaster();
+
     Task_Params taskParams;
 
     /* Call board init functions */
@@ -91,6 +95,8 @@ int main(void)
     // Board_initWatchdog();
     // Board_initWiFi();
     initADC();
+    buttonInit();
+    initTimers32();
     initGfx();
 
     /* Construct heartBeat Task  thread */
