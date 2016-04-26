@@ -11,28 +11,28 @@ extern Graphics_Context g_sContext;
 void button_task(void) {
 	Bool button_press = FALSE;
 
-	Semaphore_pend(Button_Semaphore, BIOS_WAIT_FOREVER);
+		Semaphore_pend(Button_Semaphore, BIOS_WAIT_FOREVER);
 
-	if (button_press == FALSE)
-	{
-		// change status of LED from red to green or vice versa
-		MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
-		MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
+		if (button_press == FALSE)
+		{
+			// change status of LED from red to green or vice versa
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
 
-		Timer32_startTimer((uint32_t)TIMER32_0_BASE,0);
+			Timer32_startTimer((uint32_t)TIMER32_0_BASE,0);
 
-		button_press = TRUE;
-	}
-	else
-	{
-		// change status of LED from red to green or vice versa
-		MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
-		MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
+			button_press = TRUE;
+		}
+		else
+		{
+			// change status of LED from red to green or vice versa
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
 
-		Timer32_haltTimer((uint32_t)TIMER32_0_BASE);
+			Timer32_haltTimer((uint32_t)TIMER32_0_BASE);
 
-		button_press = FALSE;
-	}
+			button_press = FALSE;
+		}
 }
 
 void buttonInit(void){
@@ -45,6 +45,8 @@ void buttonInit(void){
 
 	/* Set RGB LED to red */
 	GPIO_setOutputHighOnPin(GPIO_PORT_P2, GPIO_PIN6);
+	GPIO_setOutputLowOnPin(GPIO_PORT_P2, GPIO_PIN4);
+	GPIO_setOutputLowOnPin(GPIO_PORT_P5, GPIO_PIN6);
 
 	/* Setup Button */
 	GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P5,GPIO_PIN1);
