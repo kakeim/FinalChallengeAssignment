@@ -49,7 +49,12 @@ void display_accel(void)
 	uint32_t average_x = 0;
 	uint32_t average_y = 0;
 	uint32_t average_z = 0;
+	uint32_t prev_average_x = 0;
+	uint32_t prev_average_y = 0;
+	uint32_t prev_average_z = 0;
 	uint16_t cycle = 0;
+
+	uint32_t steps = 0;
 
 	/* Display Accelerometer Section Title */
 	Graphics_drawStringCentered(&g_sContext, "Accelerometer:", AUTO_STRING_LENGTH, 64, 20, OPAQUE_TEXT);
@@ -75,6 +80,10 @@ void display_accel(void)
 			average_y /= 200;
 			average_z /= 200;
 
+			if (average_x > prev_average_x + 12 && average_y > prev_average_y + 12 && average_z > prev_average_z + 12) {
+				steps++;
+			}
+
 			/* Print X average */
 			sprintf(string, "X: %5d", average_x);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 30, OPAQUE_TEXT);
@@ -87,7 +96,14 @@ void display_accel(void)
 			sprintf(string, "Z: %5d", average_z);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 50, OPAQUE_TEXT);
 
+			sprintf(string, "Steps: %5d", steps);
+			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 60, OPAQUE_TEXT);
+
 			/* Reset the averages for the next run */
+			prev_average_x = average_x;
+			prev_average_y = average_y;
+			prev_average_z = average_z;
+
 			average_x = 0;
 			average_y = 0;
 			average_z = 0;
