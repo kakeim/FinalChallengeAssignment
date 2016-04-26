@@ -11,7 +11,9 @@ extern Graphics_Context g_sContext;
 void button_task(void) {
 	Bool button_press = FALSE;
 
-		Semaphore_pend(Button_Semaphore, BIOS_WAIT_FOREVER);
+	while (1) {
+		/* Wait for an button press to update value */
+		Mailbox_pend(button_box, button_press, BIOS_WAIT_FOREVER);
 
 		if (button_press == FALSE)
 		{
@@ -33,6 +35,7 @@ void button_task(void) {
 
 			button_press = FALSE;
 		}
+	}
 }
 
 void buttonInit(void){
@@ -57,10 +60,18 @@ void buttonInit(void){
 }
 
 void SW1_IRQHandler(void){
+	Bool button_press = FALSE;
+
 	uint32_t status;
 	status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P5);
 	_delay_cycles(5000000);
 	MAP_GPIO_clearInterruptFlag(GPIO_PORT_P5, status);
 
-	Semaphore_post(Button_Semaphore);
+	if (button_press == TRUE) {
+		button_press = FALSE;
+	} else {
+		button_press = TRUE;
+	}
+
+	Mailbox_post(button_box, button_press, BIOS_NO_WAIT);
 }
