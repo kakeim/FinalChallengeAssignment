@@ -45,6 +45,6 @@ void buttonInit(void);
 void SW1_IRQHandler(void);
 void initTimers32(void);
 void Timer32_IRQHandler(void);
-void joystick(void);
+void joystick_task(void);
 
 #endif /* FUNCTIONS_H_ */

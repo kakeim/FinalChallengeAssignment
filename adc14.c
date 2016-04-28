@@ -117,7 +117,8 @@ void display_accel(void)
 		}
 	}
 }
-void josytick(void){
+void joystick_task(void){
+	char string[9];
 	ADC14->CTL0 = ADC14_CTL0_SHT0_5 | ADC14_CTL0_SHP |  ADC14_CTL0_SSEL_1 | ADC14_CTL0_ON ;
 	ADC14->CTL1 = ADC14_CTL1_RES_3;
 
@@ -135,6 +136,8 @@ void josytick(void){
 				__wfi();                            // alternatively you can also use __sleep();
 
 				joystickResult = ADC14->MEM[0];
+				sprintf(string, "Joystick: %5d", joystickResult);
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 70, OPAQUE_TEXT);
 	}
 }
 
