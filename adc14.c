@@ -8,7 +8,7 @@
 #include "functions.h"
 
 extern Graphics_Context g_sContext;
-uint32_t joystickResult, dutyCycle;
+
 
 void initADC(void)
 {
@@ -58,8 +58,9 @@ void display_accel(void)
 	uint32_t prev_average_y = 0;
 	uint32_t prev_average_z = 0;
 	uint16_t cycle = 0;
-
 	uint32_t steps = 0;
+
+
 
 	/* Display Accelerometer Section Title */
 	Graphics_drawStringCentered(&g_sContext, "Accelerometer:", AUTO_STRING_LENGTH, 64, 20, OPAQUE_TEXT);
@@ -79,11 +80,11 @@ void display_accel(void)
 		cycle++;
 
 		/* After 200 cycles (~1ms), take the average values and display them */
-		if(cycle >= 200)
+		if(cycle >= 5)
 		{
-			average_x /= 200;
-			average_y /= 200;
-			average_z /= 200;
+			average_x /= 5;
+			average_y /= 5;
+			average_z /= 5;
 
 			if (average_x > prev_average_x + 12 && average_y > prev_average_y + 12 && average_z > prev_average_z + 12) {
 				steps++;
@@ -101,7 +102,7 @@ void display_accel(void)
 			sprintf(string, "Z: %5d", average_z);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 50, OPAQUE_TEXT);
 
-			sprintf(string, "Steps: %5d", steps);
+			sprintf(string, "S: %5d", steps);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 60, OPAQUE_TEXT);
 
 			/* Reset the averages for the next run */
