@@ -8,12 +8,18 @@
 #include "functions.h"
 
 extern Graphics_Context g_sContext;
+uint32_t joystickResult, dutyCycle;
 
 void initADC(void)
 {
+
+	volatile uint32_t i;
+
 	// Configures Pin 4.0, 4.2, and 6.1 as ADC input for Accelerometer
 	MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P4, GPIO_PIN0 | GPIO_PIN2, GPIO_TERTIARY_MODULE_FUNCTION);
 	MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6, GPIO_PIN1, GPIO_TERTIARY_MODULE_FUNCTION);
+	// Configure Pin 6.0 as ADC input for joystick
+	MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P6, GPIO_PIN0, GPIO_TERTIARY_MODULE_FUNCTION);
 
 	ADC14_enableModule();
 	MAP_ADC14_initModule(ADC_CLOCKSOURCE_ADCOSC, ADC_PREDIVIDER_64, ADC_DIVIDER_8, 0);
@@ -111,6 +117,26 @@ void display_accel(void)
 		}
 	}
 }
+void josytick(void){
+	ADC14->CTL0 = ADC14_CTL0_SHT0_5 | ADC14_CTL0_SHP |  ADC14_CTL0_SSEL_1 | ADC14_CTL0_ON ;
+	ADC14->CTL1 = ADC14_CTL1_RES_3;
+
+	ADC14->MCTL[0] |= ADC14_MCTLN_INCH_15;    // A15 ADC input select; Vref=AVCC
+	ADC14->IER0 |= ADC14_IER0_IE0;          // Enable ADC conv complete interrupt
+
+	// Enable ADC interrupt in NVIC module
+	NVIC->ISER[0] = 1 << ((ADC14_IRQn) & 31);
+
+	__enable_interrupt();                   // Enable NVIC global/master interrupt
+	SCB->SCR &= ~SCB_SCR_SLEEPONEXIT_Msk;   // Wake up on exit from ISR
+
+	while(1){
+		ADC14->CTL0 |= ADC14_CTL0_ENC |ADC14_CTL0_SC ;
+				__wfi();                            // alternatively you can also use __sleep();
+
+				joystickResult = ADC14->MEM[0];
+	}
+}
 
 void ADC14_IRQHandler(void)
 {
@@ -127,4 +153,5 @@ void ADC14_IRQHandler(void)
 
 		Mailbox_post(adc_result, &curADCResult, BIOS_NO_WAIT);
 	}
+	ADC14->CLRIFGR0 = ADC14_CLRIFGR0_CLRIFG0;
 }

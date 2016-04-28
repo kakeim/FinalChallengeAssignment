@@ -9,13 +9,13 @@
 extern Graphics_Context g_sContext;
 
 void button_task(void) {
-	Bool button_press = FALSE;
+	int button_press = 0;
 
 	while (1) {
 		/* Wait for an button press to update value */
 		Mailbox_pend(button_box, button_press, BIOS_WAIT_FOREVER);
 
-		if (button_press == FALSE)
+		if (button_press == 0)
 		{
 			// change status of LED from red to green or vice versa
 			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
@@ -23,7 +23,7 @@ void button_task(void) {
 
 			Timer32_startTimer((uint32_t)TIMER32_0_BASE,0);
 
-			button_press = TRUE;
+			button_press = 1;
 		}
 		else
 		{
@@ -33,7 +33,7 @@ void button_task(void) {
 
 			Timer32_haltTimer((uint32_t)TIMER32_0_BASE);
 
-			button_press = FALSE;
+			button_press = 0;
 		}
 	}
 }
@@ -60,17 +60,17 @@ void buttonInit(void){
 }
 
 void SW1_IRQHandler(void){
-	Bool button_press = FALSE;
+	int button_press = 0;
 
 	uint32_t status;
 	status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P5);
 	_delay_cycles(5000000);
 	MAP_GPIO_clearInterruptFlag(GPIO_PORT_P5, status);
 
-	if (button_press == TRUE) {
-		button_press = FALSE;
+	if (button_press == 1) {
+		button_press = 0;
 	} else {
-		button_press = TRUE;
+		button_press = 0;
 	}
 
 	Mailbox_post(button_box, button_press, BIOS_NO_WAIT);
