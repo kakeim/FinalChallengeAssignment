@@ -50,7 +50,7 @@ void button2_task(void) {
 
 	while (1) {
 		/* Wait for an button press to update value */
-		Mailbox_pend(button2_box, button2_press, BIOS_WAIT_FOREVER);
+		Mailbox_pend(button2_box, &button2_press, BIOS_WAIT_FOREVER);
 		numpress++;
 		//if(button2_press == 1){
 		//	numpress++;
@@ -60,7 +60,7 @@ void button2_task(void) {
 		switch (numpress) {
 		case 1:
 			step_goal = 10;
-			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
+			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
 			//				num_presses++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -70,7 +70,7 @@ void button2_task(void) {
 			break;
 		case 2:
 			step_goal = 5000;
-			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
+			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
 			//				num_presses++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -78,7 +78,7 @@ void button2_task(void) {
 			break;
 		case 3:
 			step_goal = 7500;
-			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
+			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
 			//				num_presses++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -86,7 +86,7 @@ void button2_task(void) {
 			break;
 		case 4:
 			step_goal = 10000;
-			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
+			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
 			//button2_press++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -95,7 +95,7 @@ void button2_task(void) {
 		default:
 			step_goal = 10;
 			numpress = 1;
-			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
+			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
 
 			sprintf(string, "Goal: %5d", step_goal);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
@@ -164,5 +164,5 @@ void SW2_IRQHandler(void) {
 	_delay_cycles(5000000);
 	MAP_GPIO_clearInterruptFlag(GPIO_PORT_P3, status);
 
-	Mailbox_post(button2_box, button2_press, BIOS_NO_WAIT);
+	Mailbox_post(button2_box, &button2_press, BIOS_NO_WAIT);
 }
