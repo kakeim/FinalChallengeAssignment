@@ -114,7 +114,7 @@ void display_accel(void)
 			sprintf(string, "");
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 80, OPAQUE_TEXT);
 
-			sprintf(string, "P: %.3f%%", percent_done);
+			sprintf(string, "%% Complete: %.3f%%", percent_done);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 80, OPAQUE_TEXT);
 
 			if (percent_done >= 100 && buzzer_sounded == 0) {
