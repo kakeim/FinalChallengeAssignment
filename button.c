@@ -8,6 +8,7 @@
 
 extern Graphics_Context g_sContext;
 extern Timer_A_PWMConfig buzzerPWM;
+int numpress = 0;
 
 void buttonInit(void){
 	//	GPIO_setCallback(Board_BUTTON0, SW1_IRQHandler);
@@ -70,24 +71,29 @@ void button_task(void) {
 
 void button2_task(void) {
 	int button2_press = 0;
-	int numpress = 0;
 	int step_goal = 10;
 	char string[9];
+
+	//Mailbox_post(button_presses, &numpress, BIOS_NO_WAIT);
 
 
 	while (1) {
 		/* Wait for an button press to update value */
 		Mailbox_pend(button2_box, &button2_press, BIOS_WAIT_FOREVER);
-		numpress++;
-		//if(button2_press == 1){
-		//	numpress++;
-		//	button2_press=0;
-		//}
+		//Mailbox_pend(button_presses, &numpress, BIOS_WAIT_FOREVER);
+
+		if (button2_press == 1) {
+			numpress++;
+			button2_press = 0;
+		}
 
 		switch (numpress) {
 			case 1:
 				step_goal = 10;
 				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+
+				sprintf(string, "");
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
 
 				sprintf(string, "Goal: %5d", step_goal);
 				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
@@ -97,6 +103,9 @@ void button2_task(void) {
 				step_goal = 5000;
 				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
 
+				sprintf(string, "");
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
+
 				sprintf(string, "Goal: %5d", step_goal);
 				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
 			break;
@@ -104,6 +113,9 @@ void button2_task(void) {
 			case 3:
 				step_goal = 7500;
 				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+
+				sprintf(string, "");
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
 
 				sprintf(string, "Goal: %5d", step_goal);
 				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
@@ -113,6 +125,9 @@ void button2_task(void) {
 				step_goal = 10000;
 				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
 
+				sprintf(string, "");
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
+
 				sprintf(string, "Goal: %5d", step_goal);
 				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
 			break;
@@ -121,6 +136,10 @@ void button2_task(void) {
 				step_goal = 10;
 				numpress = 1;
 				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+				//Mailbox_post(button_presses, &numpress, BIOS_WAIT_FOREVER);
+
+				sprintf(string, "");
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
 
 				sprintf(string, "Goal: %5d", step_goal);
 				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
@@ -149,10 +168,16 @@ void SW1_IRQHandler(void){
 void SW2_IRQHandler(void) {
 
 	int button2_press = 1;
+	//int numpress;
+	//Mailbox_pend(button_presses, &numpress, BIOS_WAIT_FOREVER);
+
 	uint32_t status;
 	status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P3);
 	_delay_cycles(5000000);
 	MAP_GPIO_clearInterruptFlag(GPIO_PORT_P3, status);
 
+	//numpress++;
+
+	//Mailbox_post(button_presses, &numpress, BIOS_WAIT_FOREVER);
 	Mailbox_post(button2_box, &button2_press, BIOS_NO_WAIT);
 }

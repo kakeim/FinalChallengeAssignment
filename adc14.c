@@ -94,7 +94,7 @@ void display_accel(void)
 			}
 
 			Mailbox_pend(goal_box, &step_goal, BIOS_NO_WAIT);
-			percent_done = ((double)steps)/((double)step_goal);
+			percent_done = ((double)steps)/((double)step_goal) * 100;
 
 			/* Print X average */
 			sprintf(string, "X: %5d", average_x);
@@ -111,10 +111,13 @@ void display_accel(void)
 			sprintf(string, "S: %5d", steps);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 60, OPAQUE_TEXT);
 
-			sprintf(string, "P: %.3f", percent_done);
-			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 80, OPAQUE_TEXT);
+			sprintf(string, "");
+			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 80, OPAQUE_TEXT);
 
-			if (percent_done >= 1 && buzzer_sounded == 0) {
+			sprintf(string, "P: %.3f%%", percent_done);
+			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 80, OPAQUE_TEXT);
+
+			if (percent_done >= 100 && buzzer_sounded == 0) {
 				buzzerPWM.dutyCycle = 6000000/300/2;
 				Timer_A_generatePWM(TIMER_A1_BASE, &buzzerPWM);
 				Task_sleep(700);
