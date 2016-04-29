@@ -8,7 +8,7 @@
 #include "functions.h"
 
 extern Graphics_Context g_sContext;
-
+extern Timer_A_PWMConfig buzzerPWM;
 
 void initADC(void)
 {
@@ -61,6 +61,7 @@ void display_accel(void)
 	int steps = 0;
 	int step_goal = 0;
 	double percent_done;
+	int buzzer_sounded = 0;
 
 
 
@@ -112,6 +113,16 @@ void display_accel(void)
 
 			sprintf(string, "P: %.3f", percent_done);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 80, OPAQUE_TEXT);
+
+			if (percent_done >= 1 && buzzer_sounded == 0) {
+				buzzerPWM.dutyCycle = 6000000/300/2;
+				Timer_A_generatePWM(TIMER_A1_BASE, &buzzerPWM);
+				Task_sleep(700);
+				buzzerPWM.dutyCycle = 0;
+				Timer_A_generatePWM(TIMER_A1_BASE, &buzzerPWM);
+
+				buzzer_sounded = 1;
+			}
 
 			/* Reset the averages for the next run */
 			prev_average_x = average_x;

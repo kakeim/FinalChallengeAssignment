@@ -9,113 +9,6 @@
 extern Graphics_Context g_sContext;
 extern Timer_A_PWMConfig buzzerPWM;
 
-void button_task(void) {
-	int button_press = 0;
-
-
-
-
-	while (1) {
-		/* Wait for an button press to update value */
-		Mailbox_pend(button1_box, button_press, BIOS_WAIT_FOREVER);
-
-		if (button_press == 0)
-		{
-			// change status of LED from red to green or vice versa
-			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
-			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
-
-			Timer32_startTimer((uint32_t)TIMER32_0_BASE,0);
-
-			buzzerPWM.dutyCycle = 6000000/300/2;
-			Timer_A_generatePWM(TIMER_A1_BASE, &buzzerPWM);
-			Task_sleep(2000);
-			buzzerPWM.dutyCycle = 0;
-			Timer_A_generatePWM(TIMER_A1_BASE, &buzzerPWM);
-
-			button_press = 1;
-		}
-		else
-		{
-			// change status of LED from red to green or vice versa
-			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
-			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
-
-			Timer32_haltTimer((uint32_t)TIMER32_0_BASE);
-
-			button_press = 0;
-		}
-
-	}
-}
-void button2_task(void) {
-	int button2_press = 0;
-	int numpress = 0;
-	int step_goal = 10;
-	char string[9];
-
-
-	while (1) {
-		/* Wait for an button press to update value */
-		Mailbox_pend(button2_box, &button2_press, BIOS_WAIT_FOREVER);
-		numpress++;
-		//if(button2_press == 1){
-		//	numpress++;
-		//	button2_press=0;
-		//}
-
-		switch (numpress) {
-		case 1:
-			step_goal = 10;
-			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
-			//				num_presses++;
-
-			sprintf(string, "Goal: %5d", step_goal);
-			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
-
-
-			break;
-		case 2:
-			step_goal = 5000;
-			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
-			//				num_presses++;
-
-			sprintf(string, "Goal: %5d", step_goal);
-			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
-			break;
-		case 3:
-			step_goal = 7500;
-			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
-			//				num_presses++;
-
-			sprintf(string, "Goal: %5d", step_goal);
-			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
-			break;
-		case 4:
-			step_goal = 10000;
-			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
-			//button2_press++;
-
-			sprintf(string, "Goal: %5d", step_goal);
-			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
-			break;
-		default:
-			step_goal = 10;
-			numpress = 1;
-			Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
-
-			sprintf(string, "Goal: %5d", step_goal);
-			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
-			break;
-		}
-
-
-
-	}
-}
-
-
-
 void buttonInit(void){
 	//	GPIO_setCallback(Board_BUTTON0, SW1_IRQHandler);
 	GPIO_enableInt(Board_BUTTON0);
@@ -145,6 +38,96 @@ void buttonInit(void){
 	Interrupt_enableInterrupt(INT_PORT3);
 }
 
+void button_task(void) {
+	int button_press = 0;
+
+	while (1) {
+		/* Wait for an button press to update value */
+		Mailbox_pend(button1_box, button_press, BIOS_WAIT_FOREVER);
+
+		if (button_press == 0)
+		{
+			// change status of LED from red to green or vice versa
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
+
+			Timer32_startTimer((uint32_t)TIMER32_0_BASE,0);
+
+			button_press = 1;
+		}
+		else
+		{
+			// change status of LED from red to green or vice versa
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN6);	// toggle Red
+			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
+
+			Timer32_haltTimer((uint32_t)TIMER32_0_BASE);
+
+			button_press = 0;
+		}
+	}
+}
+
+void button2_task(void) {
+	int button2_press = 0;
+	int numpress = 0;
+	int step_goal = 10;
+	char string[9];
+
+
+	while (1) {
+		/* Wait for an button press to update value */
+		Mailbox_pend(button2_box, &button2_press, BIOS_WAIT_FOREVER);
+		numpress++;
+		//if(button2_press == 1){
+		//	numpress++;
+		//	button2_press=0;
+		//}
+
+		switch (numpress) {
+			case 1:
+				step_goal = 10;
+				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+
+				sprintf(string, "Goal: %5d", step_goal);
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
+			break;
+
+			case 2:
+				step_goal = 5000;
+				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+
+				sprintf(string, "Goal: %5d", step_goal);
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
+			break;
+
+			case 3:
+				step_goal = 7500;
+				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+
+				sprintf(string, "Goal: %5d", step_goal);
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
+			break;
+
+			case 4:
+				step_goal = 10000;
+				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+
+				sprintf(string, "Goal: %5d", step_goal);
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
+			break;
+
+			default:
+				step_goal = 10;
+				numpress = 1;
+				Mailbox_post(goal_box, &step_goal, BIOS_NO_WAIT);
+
+				sprintf(string, "Goal: %5d", step_goal);
+				Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
+			break;
+		}
+	}
+}
 
 void SW1_IRQHandler(void){
 	int button_press = 0;
