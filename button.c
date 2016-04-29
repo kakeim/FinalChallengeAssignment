@@ -7,6 +7,7 @@
 #include "functions.h"
 
 extern Graphics_Context g_sContext;
+extern Timer_A_PWMConfig buzzerPWM;
 
 void button_task(void) {
 	int button_press = 0;
@@ -25,6 +26,12 @@ void button_task(void) {
 			MAP_GPIO_toggleOutputOnPin(GPIO_PORT_P2, GPIO_PIN4);	// toggle Green
 
 			Timer32_startTimer((uint32_t)TIMER32_0_BASE,0);
+
+			buzzerPWM.dutyCycle = 6000000/300/2;
+			Timer_A_generatePWM(TIMER_A1_BASE, &buzzerPWM);
+			Task_sleep(2000);
+			buzzerPWM.dutyCycle = 0;
+			Timer_A_generatePWM(TIMER_A1_BASE, &buzzerPWM);
 
 			button_press = 1;
 		}

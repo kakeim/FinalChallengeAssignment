@@ -42,6 +42,7 @@ int main(void)
 	initADC();
 	buttonInit();
 	initTimers32();
+	initPWM();
 
 	/* Construct heartBeat Task  thread */
 	Task_Params_init(&taskParams);
