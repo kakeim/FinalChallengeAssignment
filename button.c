@@ -60,6 +60,7 @@ void button2_task(void) {
 		switch (numpress) {
 		case 1:
 			step_goal = 10;
+			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
 			//				num_presses++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -69,6 +70,7 @@ void button2_task(void) {
 			break;
 		case 2:
 			step_goal = 5000;
+			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
 			//				num_presses++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -76,6 +78,7 @@ void button2_task(void) {
 			break;
 		case 3:
 			step_goal = 7500;
+			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
 			//				num_presses++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -83,6 +86,7 @@ void button2_task(void) {
 			break;
 		case 4:
 			step_goal = 10000;
+			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
 			//button2_press++;
 
 			sprintf(string, "Goal: %5d", step_goal);
@@ -91,11 +95,14 @@ void button2_task(void) {
 		default:
 			step_goal = 10;
 			numpress = 1;
+			Mailbox_post(goal_box, step_goal, BIOS_NO_WAIT);
 
 			sprintf(string, "Goal: %5d", step_goal);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, AUTO_STRING_LENGTH, 64, 70, OPAQUE_TEXT);
 			break;
 		}
+
+
 
 	}
 }

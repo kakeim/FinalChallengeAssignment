@@ -58,7 +58,9 @@ void display_accel(void)
 	uint32_t prev_average_y = 0;
 	uint32_t prev_average_z = 0;
 	uint16_t cycle = 0;
-	uint32_t steps = 0;
+	int steps = 0;
+	int step_goal = 0;
+	int percent_done;
 
 
 
@@ -86,9 +88,13 @@ void display_accel(void)
 			average_y /= 5;
 			average_z /= 5;
 
-			if (average_x > prev_average_x + 12 && average_y > prev_average_y + 12 && average_z > prev_average_z + 12) {
+			if (average_x > prev_average_x + 100 || average_y > prev_average_y + 100 || average_z > prev_average_z + 100) {
 				steps++;
 			}
+
+			Mailbox_pend(goal_box, step_goal, BIOS_NO_WAIT);
+			percent_done = steps/step_goal;
+
 
 			/* Print X average */
 			sprintf(string, "X: %5d", average_x);
@@ -104,6 +110,9 @@ void display_accel(void)
 
 			sprintf(string, "S: %5d", steps);
 			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 60, OPAQUE_TEXT);
+
+			sprintf(string, "P: %5d", percent_done);
+			Graphics_drawStringCentered(&g_sContext, (int8_t *)string, 8, 64, 80, OPAQUE_TEXT);
 
 			/* Reset the averages for the next run */
 			prev_average_x = average_x;
