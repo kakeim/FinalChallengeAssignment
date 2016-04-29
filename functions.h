@@ -46,5 +46,6 @@ void SW1_IRQHandler(void);
 void SW2_IRQHandler(void);
 void initTimers32(void);
 void Timer32_IRQHandler(void);
+void initPWM(void);
 
 #endif /* FUNCTIONS_H_ */
