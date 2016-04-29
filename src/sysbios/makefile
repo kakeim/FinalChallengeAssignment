@@ -16,11 +16,11 @@ BIOS_INC  = -I"C:/ti/tirtos_msp43x_2_16_00_08/products/bios_6_45_01_29/packages/
 
 TARGET_INC = -I"C:/ti/tirtos_msp43x_2_16_00_08/products/bios_6_45_01_29/packages/"
 
-INCS = $(BIOS_INC) $(TARGET_INC)  --include_path="C:/ccsv6_workshop/msp432/workspace/FinalChallengeAssignment/LcdDriver" --include_path="C:/ccsv6_workshop/msp432/workspace/FinalChallengeAssignment/GrLib/grlib" --include_path="C:/ti/ccsv6/ccs_base/arm/include" --include_path="C:/ccsv6_workshop/msp432/workspace/FinalChallengeAssignment/GrLib/fonts" --include_path="C:/ti/ccsv6/ccs_base/arm/include/CMSIS" --include_path="C:/ccsv6_workshop/msp432/workspace/FinalChallengeAssignment" --include_path="C:/ti/tirtos_msp43x_2_16_00_08/products/msp432_driverlib_3_10_00_09/inc/CMSIS" --include_path="C:/ti/tirtos_msp43x_2_16_00_08/products/msp432_driverlib_3_10_00_09/inc" --include_path="C:/ti/tirtos_msp43x_2_16_00_08/products/msp432_driverlib_3_10_00_09/driverlib/MSP432P4xx" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include" 
+INCS = $(BIOS_INC) $(TARGET_INC)  --include_path="C:/Users/Kevin/Desktop/FinalChallengeAssignment/LcdDriver" --include_path="C:/Users/Kevin/Desktop/FinalChallengeAssignment/GrLib/grlib" --include_path="C:/ti/ccsv6/ccs_base/arm/include" --include_path="C:/Users/Kevin/Desktop/FinalChallengeAssignment/GrLib/fonts" --include_path="C:/ti/ccsv6/ccs_base/arm/include/CMSIS" --include_path="C:/Users/Kevin/Desktop/FinalChallengeAssignment" --include_path="C:/ti/tirtos_msp43x_2_16_00_08/products/msp432_driverlib_3_10_00_09/inc/CMSIS" --include_path="C:/ti/tirtos_msp43x_2_16_00_08/products/msp432_driverlib_3_10_00_09/inc" --include_path="C:/ti/tirtos_msp43x_2_16_00_08/products/msp432_driverlib_3_10_00_09/driverlib/MSP432P4xx" --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.7/include" 
 
-CC = C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl -c $(CCOPTS) -I C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include
-ASM = C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl -c $(CCOPTS) -I C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include
-AR = C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armar rq
+CC = C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.7/bin/armcl -c $(CCOPTS) -I C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.7/include
+ASM = C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.7/bin/armcl -c $(CCOPTS) -I C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.7/include
+AR = C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.7/bin/armar rq
 
 DEL = C:/ti/xdctools_3_31_01_33_core/packages/../bin/rm -f
 CP = C:/ti/xdctools_3_31_01_33_core/packages/../bin/cp -f

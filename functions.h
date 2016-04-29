@@ -43,6 +43,7 @@ void accel_task(void);
 void ADC14_IRQHandler(void);
 void buttonInit(void);
 void SW1_IRQHandler(void);
+void SW2_IRQHandler(void);
 void initTimers32(void);
 void Timer32_IRQHandler(void);
 
